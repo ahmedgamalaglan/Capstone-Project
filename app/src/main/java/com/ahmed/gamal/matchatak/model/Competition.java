@@ -4,7 +4,14 @@ package com.ahmed.gamal.matchatak.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Competition {
+
+
+    @SerializedName("competitions")
+    @Expose
+    private List<Competition> competitions;
 
     @SerializedName("id")
     @Expose
@@ -27,12 +34,23 @@ public class Competition {
     @SerializedName("currentSeason")
     @Expose
     private Season currentSeason;
+    @SerializedName("seasons")
+    @Expose
+    private List<Season> seasons;
     @SerializedName("numberOfAvailableSeasons")
     @Expose
     private int numberOfAvailableSeasons;
     @SerializedName("lastUpdated")
     @Expose
     private String lastUpdated;
+
+    public List<Competition> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
+    }
 
     public int getId() {
         return id;
@@ -88,6 +106,14 @@ public class Competition {
 
     public void setCurrentSeason(Season currentSeason) {
         this.currentSeason = currentSeason;
+    }
+
+    public List<Season> getSeasons() {
+        return seasons;
+    }
+
+    public void setSeasons(List<Season> seasons) {
+        this.seasons = seasons;
     }
 
     public int getNumberOfAvailableSeasons() {

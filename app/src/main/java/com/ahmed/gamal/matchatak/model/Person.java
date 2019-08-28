@@ -30,6 +30,8 @@ public class Person {
     @Expose
     private String role;
 
+
+
     public int getId() {
         return id;
     }
