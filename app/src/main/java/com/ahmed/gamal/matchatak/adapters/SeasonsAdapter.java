@@ -4,10 +4,10 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmed.gamal.matchatak.R;
@@ -45,34 +45,33 @@ public class SeasonsAdapter extends RecyclerView.Adapter<SeasonsAdapter.Holder> 
     }
 
     class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView competitionName, season;
-        ConstraintLayout layout;
+        TextView season;
+        FrameLayout frameLayout;
 
         Holder(@NonNull View itemView) {
             super(itemView);
-            competitionName = itemView.findViewById(R.id.tv_name);
             season = itemView.findViewById(R.id.tv_season);
-            layout = itemView.findViewById(R.id.list_item);
+            frameLayout = itemView.findViewById(R.id.fl_season_container);
             itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
-            competitionName.setText(competition.getName() + " (" + competition.getArea().getName() + ")");
-            season.setText(DateUtil.seasonNum(competition.getSeasons().get(position).getStartDate(),
-                    competition.getSeasons().get(position).getEndDate()));
+            season.setText(DateUtil.seasonNum(competition.getSeasons().get(position).getStartDate()));
+            int col = Color.rgb(255, 255 - ((position * 7) % 255), 0);
+            frameLayout.setBackgroundColor(col);
             if (competition.getCurrentSeason() != null && competition.getCurrentSeason().getId() == competition.getSeasons().get(getAdapterPosition()).getId()) {
-                layout.setBackgroundColor(Color.GREEN);
+                frameLayout.setBackgroundColor(Color.GREEN);
             }
         }
 
         @Override
         public void onClick(View view) {
-            clickListener.onSeasonClicked(competition.getSeasons().get(getAdapterPosition()).getId());
+            clickListener.onSeasonClicked(competition.getId(), Integer.valueOf(DateUtil.seasonNum(competition.getSeasons().get(getAdapterPosition()).getStartDate())));
         }
     }
 
     public interface OnSeasonClickListener {
-        void onSeasonClicked(int seasonId);
+        void onSeasonClicked(int competitionId, int seasonYear);
 
     }
 
@@ -81,8 +80,4 @@ public class SeasonsAdapter extends RecyclerView.Adapter<SeasonsAdapter.Holder> 
         return position;
     }
 
-//    @Override
-//    public long getItemId(int position) {
-//        return position;
-//    }
 }

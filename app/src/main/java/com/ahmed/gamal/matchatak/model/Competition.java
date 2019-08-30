@@ -1,14 +1,18 @@
 package com.ahmed.gamal.matchatak.model;
 
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "competitions")
 public class Competition {
 
-
+    @Ignore
     @SerializedName("competitions")
     @Expose
     private List<Competition> competitions;

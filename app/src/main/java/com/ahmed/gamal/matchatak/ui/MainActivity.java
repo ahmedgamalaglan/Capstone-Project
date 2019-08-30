@@ -4,12 +4,12 @@ package com.ahmed.gamal.matchatak.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.adapters.CompetitionsAdapter;
@@ -23,21 +23,27 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
 
 
     private RecyclerView recyclerView;
+    private View progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.rv_competitions);
+        progressbar = findViewById(R.id.progress_bar);
         CompetitionsViewModel viewModel = ViewModelProviders.of(this).get(CompetitionsViewModel.class);
-        viewModel.getCompetitions().observe(this, this::setRecyclerView);
+        viewModel.getCompetitions().observe(this, competitions -> {
+            setRecyclerView(competitions);
+            progressbar.setVisibility(View.INVISIBLE);
+
+        });
 
     }
 
     private void setRecyclerView(List<Competition> competitionsList) {
         CompetitionsAdapter adapter = new CompetitionsAdapter(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
         adapter.setData(competitionsList);
     }
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
     public void OnCompetitionClick(Competition competition) {
         Intent intent = new Intent(MainActivity.this, CompetitionActivity.class);
         intent.putExtra("id", competition.getId());
+        intent.putExtra("name", competition.getName());
         startActivity(intent);
     }
 }

@@ -1,59 +1,107 @@
 package com.ahmed.gamal.matchatak.ui.competition;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.ahmed.gamal.matchatak.Const;
 import com.ahmed.gamal.matchatak.R;
+import com.ahmed.gamal.matchatak.adapters.PagerAdapter;
 import com.ahmed.gamal.matchatak.adapters.SeasonsAdapter;
 import com.ahmed.gamal.matchatak.model.Competition;
+import com.ahmed.gamal.matchatak.ui.TeamsFragment;
+import com.ahmed.gamal.matchatak.utils.DateUtil;
 import com.ahmed.gamal.matchatak.viewmodels.CompetitionViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 
-public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener {
+public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnFragmentInteractionListener {
 
-    private CompetitionViewModel viewModel;
     private RecyclerView recyclerView;
+    private ImageView imageView;
+    private TabLayout tabLayout;
+    private PagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+    private View progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competition);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        imageView = findViewById(R.id.iv_bar_background);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         setSupportActionBar(toolbar);
-        recyclerView=findViewById(R.id.rv_seasons);
-        viewModel= ViewModelProviders.of(this).get(CompetitionViewModel.class);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        recyclerView = findViewById(R.id.rv_seasons);
+        viewPager = findViewById(R.id.vp_viewpager);
+        tabLayout = findViewById(R.id.tab_layout);
+        progressbar = findViewById(R.id.progress_bar);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        CompetitionViewModel viewModel = ViewModelProviders.of(this).get(CompetitionViewModel.class);
         if (getIntent() != null && getIntent().hasExtra("id")) {
-            int id=getIntent().getIntExtra("id",0);
-            viewModel.getCompetitionById(id).observe(this, competition -> setSeasons(competition));
+            int id = getIntent().getIntExtra("id", 0);
+            String name = getIntent().getStringExtra("name");
+            Picasso.get().load(Const.getImageUrl(id)).into(imageView);
+            collapsingToolbarLayout.setTitle(name);
+
+            viewModel.getCompetitionById(id).observe(this, competition -> {
+                        if (competition != null) {
+                            setSeasons(competition);
+                            pagerAdapter = new PagerAdapter(getSupportFragmentManager(), competition.getId(), Integer.valueOf(DateUtil.seasonNum(competition.getSeasons().get(0).getStartDate())));
+                            viewPager.setAdapter(pagerAdapter);
+                            tabLayout.setupWithViewPager(viewPager);
+
+                        }
+                        progressbar.setVisibility(View.INVISIBLE);
+
+                    }
+            );
         }
-        FloatingActionButton addToFavorite = findViewById(R.id.fab);
-        addToFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
+
     private void setSeasons(Competition competition) {
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            SeasonsAdapter adapter=new SeasonsAdapter(this);
-            recyclerView.setAdapter(adapter);
-            adapter.setData(competition);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        SeasonsAdapter adapter = new SeasonsAdapter(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setData(competition);
     }
 
     @Override
-    public void onSeasonClicked(int seasonId) {
-        Toast.makeText(this, ""+seasonId , Toast.LENGTH_SHORT).show();
+    public void onSeasonClicked(int competitionId, int seasonId) {
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), competitionId, seasonId);
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 }

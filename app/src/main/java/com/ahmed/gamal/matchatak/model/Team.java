@@ -7,6 +7,10 @@ import java.util.List;
 
 public class Team {
 
+    @SerializedName("teams")
+    @Expose
+    private List<Team> teams;
+
     @SerializedName("id")
     @Expose
     private int id;
@@ -55,6 +59,14 @@ public class Team {
     @SerializedName("squad")
     @Expose
     private List<Person> squad = null;
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
 
     public int getId() {
         return id;

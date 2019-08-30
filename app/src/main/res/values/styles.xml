@@ -18,8 +18,16 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.header">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.SeasonTextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+   <style name="AppTheme.TeamText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 </resources>

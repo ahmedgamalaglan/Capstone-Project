@@ -6,45 +6,85 @@
     android:layout_height="match_parent"
     tools:context=".ui.competition.CompetitionActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+
+    <FrameLayout
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/semi_transparent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="@color/colorPrimaryDark"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:layout_height="350dp"
             android:fitsSystemWindows="true"
-            app:collapsedTitleGravity="center"
-            app:title=""
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleGravity="bottom|start"
+            app:expandedTitleTextAppearance="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/iv_bar_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_gravity="bottom"
+        app:layout_behavior="com.google.android.material.bottomappbar.BottomAppBar$Behavior">
 
-    <include layout="@layout/content_competition" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_seasons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/season_list_row"
+            android:layout_margin="8dp"
+            tools:orientation="horizontal" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

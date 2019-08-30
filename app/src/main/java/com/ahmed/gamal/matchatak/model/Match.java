@@ -6,6 +6,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Match {
+
+    @SerializedName("matches")
+    @Expose
+    private List<Match> matches;
+
     @SerializedName("id")
     @Expose
     private int id;
@@ -57,6 +62,14 @@ public class Match {
     @SerializedName("referees")
     @Expose
     private List<Person> referees;
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
 
     public int getId() {
         return id;

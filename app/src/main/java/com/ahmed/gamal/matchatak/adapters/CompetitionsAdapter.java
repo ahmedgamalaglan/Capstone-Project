@@ -3,12 +3,16 @@ package com.ahmed.gamal.matchatak.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ahmed.gamal.matchatak.Const;
+import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.model.Competition;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +35,7 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.compertition_list_row, parent, false);
         return new MyHolder(view);
     }
 
@@ -46,18 +50,21 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
     }
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textView, textView2;
+        TextView name, area;
+        ImageView image;
 
         MyHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
-            textView2 = itemView.findViewById(android.R.id.text2);
+            name = itemView.findViewById(R.id.tv_name);
+            image = itemView.findViewById(R.id.iv_image);
+            area = itemView.findViewById(R.id.tv_area_name);
             itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
-            textView.setText(competitions.get(position).getName());
-            textView2.setText(competitions.get(position).getArea().getName());
+            Picasso.get().load(Const.getImageUrl(competitions.get(position).getId())).into(image);
+            name.setText(competitions.get(position).getName());
+            area.setText(competitions.get(position).getArea().getName());
         }
 
         @Override
