@@ -18,8 +18,9 @@ import java.util.List;
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.Holder> {
 
     private List<Match> matches;
-
-    public MatchesAdapter() {
+    private OnMatchClickListener onMatchClickListener;
+    public MatchesAdapter(OnMatchClickListener listener) {
+        this.onMatchClickListener=listener;
     }
 
     public void setData(List<Match> data) {
@@ -43,7 +44,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.Holder> 
         return matches == null ? 0 : matches.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder {
+    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView homeTeam, awayTeam, matchDate, homeTeamScore, awayTeamScore, status;
         CardView container;
 
@@ -56,6 +57,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.Holder> 
             awayTeamScore = itemView.findViewById(R.id.tv_away_team_score);
             status = itemView.findViewById(R.id.status);
             container = itemView.findViewById(R.id.container);
+            itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
@@ -76,11 +78,21 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.Holder> 
             }
             status.setText(state);
         }
+
+        @Override
+        public void onClick(View view) {
+            onMatchClickListener.onAdapterMatchClick(matches.get(getAdapterPosition()).getId());
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+
+    public interface OnMatchClickListener{
+        void onAdapterMatchClick(int matchId);
     }
 
 }

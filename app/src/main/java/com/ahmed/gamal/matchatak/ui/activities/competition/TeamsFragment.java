@@ -18,17 +18,15 @@ import com.ahmed.gamal.matchatak.viewmodels.TeamsViewModel;
 
 import java.util.List;
 
-public class TeamsFragment extends Fragment {
+public class TeamsFragment extends Fragment implements TeamsAdapter.OnTeamClickListener {
 
 
-    private TeamsViewModel viewModel;
-    private TeamsAdapter adapter;
     private RecyclerView recyclerView;
     private static String ID = "id";
     private static String SEASON = "season";
     private View progressbar;
 
-    private OnTeamsFragmentInteractionListener mListener;
+    private OnTeamsInteractionListener mListener;
 
     public TeamsFragment() {
     }
@@ -45,7 +43,7 @@ public class TeamsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(TeamsViewModel.class);
+        TeamsViewModel viewModel = ViewModelProviders.of(this).get(TeamsViewModel.class);
         if (getArguments() != null) {
             int competitionId = getArguments().getInt(ID);
             int season = getArguments().getInt(SEASON);
@@ -57,7 +55,7 @@ public class TeamsFragment extends Fragment {
     }
 
     private void setTeamsToView(List<Team> teams) {
-        adapter = new TeamsAdapter();
+        TeamsAdapter adapter = new TeamsAdapter(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -74,17 +72,12 @@ public class TeamsFragment extends Fragment {
         return view;
     }
 
-    public void onButtonPressed(Team team) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(team);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnTeamsFragmentInteractionListener) {
-            mListener = (OnTeamsFragmentInteractionListener) context;
+        if (context instanceof OnTeamsInteractionListener) {
+            mListener = (OnTeamsInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -97,8 +90,15 @@ public class TeamsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onTeamClick(int teamId) {
+        if (mListener != null) {
+            mListener.onTeamInteraction(teamId);
+        }
+    }
 
-    public interface OnTeamsFragmentInteractionListener {
-        void onFragmentInteraction(Team team);
+
+    public interface OnTeamsInteractionListener {
+        void onTeamInteraction(int teamId);
     }
 }

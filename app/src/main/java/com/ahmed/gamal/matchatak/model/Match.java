@@ -11,6 +11,10 @@ public class Match {
     @Expose
     private List<Match> matches;
 
+    @SerializedName("match")
+    @Expose
+    private Match match;
+
     @SerializedName("id")
     @Expose
     private int id;
@@ -65,6 +69,14 @@ public class Match {
     @SerializedName("referees")
     @Expose
     private List<Person> referees;
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 
     public List<Match> getMatches() {
         return matches;

@@ -136,7 +136,8 @@ public class DataRepository {
         ApiHelper.getClient().getMatchById(matchId).enqueue(new Callback<Match>() {
             @Override
             public void onResponse(@NotNull Call<Match> call, @NotNull Response<Match> response) {
-                match.postValue(response.body());
+                assert response.body() != null;
+                match.postValue(response.body().getMatch());
             }
 
             @Override
@@ -146,7 +147,6 @@ public class DataRepository {
         });
         return match;
     }
-
 
     class AddCompetitionToDB extends AsyncTask<Competition, Void, Void> {
 

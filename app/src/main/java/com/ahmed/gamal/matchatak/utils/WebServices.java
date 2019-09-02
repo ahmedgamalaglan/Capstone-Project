@@ -26,7 +26,7 @@ public interface WebServices {
     Call<Team> getCompetitionTeamsList(@Path("id") int competitionId,@Query("season") int season);
 
     @GET("matches/{id}")
-    Call<Match> getMatchById(@Path("id") int teamId);
+    Call<Match> getMatchById(@Path("id") int matchId);
 
     @GET("competitions/{id}/matches")
     Call<Match> getCompetitionMatchesList(@Path("id") int competitionId,@Query("season") int season );

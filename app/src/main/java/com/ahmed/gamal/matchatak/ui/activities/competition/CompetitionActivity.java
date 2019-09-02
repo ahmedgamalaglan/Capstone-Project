@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,13 +21,15 @@ import com.ahmed.gamal.matchatak.adapters.PagerAdapter;
 import com.ahmed.gamal.matchatak.adapters.SeasonsAdapter;
 import com.ahmed.gamal.matchatak.model.Competition;
 import com.ahmed.gamal.matchatak.model.Team;
+import com.ahmed.gamal.matchatak.ui.fragments.MatchFragment;
+import com.ahmed.gamal.matchatak.ui.fragments.TeamFragment;
 import com.ahmed.gamal.matchatak.utils.DateUtil;
 import com.ahmed.gamal.matchatak.viewmodels.CompetitionViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
-public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnTeamsFragmentInteractionListener {
+public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnTeamsInteractionListener, MatchesFragment.OnMatchFragmentInteractionListener {
 
     private RecyclerView recyclerView;
     private ImageView imageView;
@@ -96,8 +100,17 @@ public class CompetitionActivity extends AppCompatActivity implements SeasonsAda
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    public void onFragmentInteraction(Team team) {
+    public void onMatchClick(int matchId) {
+
+        MatchFragment.newInstance(matchId).show(getSupportFragmentManager(),"");
+
+    }
+
+    @Override
+    public void onTeamInteraction(int teamId) {
+        TeamFragment.newInstance(teamId).show(getSupportFragmentManager(),"");
 
     }
 }

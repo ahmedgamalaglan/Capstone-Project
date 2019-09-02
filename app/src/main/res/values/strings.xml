@@ -31,7 +31,13 @@
     <string name="website">WebSite</string>
     <string name="tel">Tel</string>
     <string name="reload_from_network">reload from Network</string>
-    <string-array name="urls">
-        <item></item>
-    </string-array>
+    <string name="players">Players</string>
+    <string name="line_up">Line Up</string>
+    <string name="captain">Captain :</string>
+    <string name="coach">Coach :</string>
+    <string name="referees">Referees :</string>
+    <string name="staduim">Stadium :</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="club_colors">Club Colors</string>
 </resources>

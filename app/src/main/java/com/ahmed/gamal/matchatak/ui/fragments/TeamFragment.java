@@ -1,30 +1,29 @@
 package com.ahmed.gamal.matchatak.ui.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.model.Team;
 import com.ahmed.gamal.matchatak.viewmodels.TeamsViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class TeamFragment extends Fragment {
+public class TeamFragment extends BottomSheetDialogFragment {
 
-    private OnFragmentInteractionListener mListener;
-    private static final String ID="teamId";
+    private static final String ID = "teamId";
+    private TextView teamName, stadium, website, phone, email, clubColors;
+
     public TeamFragment() {
     }
 
     public static TeamFragment newInstance(int teamId) {
         TeamFragment fragment = new TeamFragment();
         Bundle args = new Bundle();
-
         args.putInt(ID, teamId);
         fragment.setArguments(args);
         return fragment;
@@ -41,40 +40,31 @@ public class TeamFragment extends Fragment {
     }
 
     private void setTeamToView(Team team) {
+        stadium.setText(team.getVenue());
+        teamName.setText(team.getName());
+        phone.setText(team.getPhone());
+        email.setText(team.getEmail());
+        website.setText(team.getWebsite());
+        clubColors.setText(team.getClubColors());
+
+        getChildFragmentManager().beginTransaction().addToBackStack("")
+                .replace(R.id.fl_player_container, PlayerFragment.newInstance(team.getSquad())).commit();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.team_list_row, container, false);
+        View view = inflater.inflate(R.layout.fragment_team, container, false);
+        stadium = view.findViewById(R.id.tv_stadium);
+        phone = view.findViewById(R.id.tv_phone);
+        email = view.findViewById(R.id.tv_email);
+        clubColors = view.findViewById(R.id.tv_club_colors);
+        website = view.findViewById(R.id.tv_website);
+        teamName = view.findViewById(R.id.tv_team_name);
+        return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

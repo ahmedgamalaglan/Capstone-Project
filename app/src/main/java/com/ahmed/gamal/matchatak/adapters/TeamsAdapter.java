@@ -20,10 +20,14 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
 
 
     private List<Team> teams;
-
+    private OnTeamClickListener onTeamClickListener;
     public void setData(List<Team> teams) {
         this.teams = teams;
         notifyDataSetChanged();
+    }
+
+    public TeamsAdapter(OnTeamClickListener onTeamClickListener) {
+        this.onTeamClickListener = onTeamClickListener;
     }
 
     @NonNull
@@ -43,7 +47,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
         return teams == null ? 0 : teams.size();
     }
 
-    class TeamsHolder extends RecyclerView.ViewHolder {
+    class TeamsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView addToFav;
         TextView name, year, mobile, website;
 
@@ -54,6 +58,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
             year = itemView.findViewById(R.id.tv_founded);
             mobile = itemView.findViewById(R.id.tv_mobile);
             website = itemView.findViewById(R.id.tv_website);
+            itemView.setOnClickListener(this);
         }
 
          void bind(int position) {
@@ -64,5 +69,14 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
             website.setText(team.getWebsite());
             addToFav.setOnClickListener(view -> {});
         }
+
+        @Override
+        public void onClick(View view) {
+            onTeamClickListener.onTeamClick(teams.get(getAdapterPosition()).getId());
+        }
+    }
+
+    public interface OnTeamClickListener{
+        void onTeamClick(int teamId);
     }
 }

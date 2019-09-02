@@ -1,5 +1,6 @@
 package com.ahmed.gamal.matchatak.ui.activities.competition;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,13 @@ import com.ahmed.gamal.matchatak.viewmodels.MatchesViewModel;
 
 import java.util.List;
 
-public class MatchesFragment extends Fragment {
+public class MatchesFragment extends Fragment implements MatchesAdapter.OnMatchClickListener {
 
     private static final String ID = "id";
     private static final String SEASON = "season";
     private FrameLayout progressbar;
     private RecyclerView recyclerView;
+    private OnMatchFragmentInteractionListener mListener;
 
     public static MatchesFragment newInstance(int competitionId, int season) {
 
@@ -59,11 +61,41 @@ public class MatchesFragment extends Fragment {
     }
 
     private void setMatchesToUi(List<Match> matches) {
-        MatchesAdapter adapter = new MatchesAdapter();
+        MatchesAdapter adapter = new MatchesAdapter(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setData(matches);
         progressbar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onAdapterMatchClick(int matchId) {
+        if (mListener != null) {
+            mListener.onMatchClick(matchId);
+        }
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnMatchFragmentInteractionListener) {
+            mListener = (OnMatchFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface OnMatchFragmentInteractionListener {
+        void onMatchClick(int matchId);
     }
 }

@@ -1,24 +1,28 @@
 package com.ahmed.gamal.matchatak.ui.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.ahmed.gamal.matchatak.R;
+import com.ahmed.gamal.matchatak.model.Match;
+import com.ahmed.gamal.matchatak.model.Person;
 import com.ahmed.gamal.matchatak.viewmodels.MatchesViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.List;
 
 
-public class MatchFragment extends Fragment {
+public class MatchFragment extends BottomSheetDialogFragment {
     private static final String ID = "id";
-
-    private OnFragmentInteractionListener mListener;
+    private TextView status, homeTeam, homeTeamResult, awayTeam, awayTeamResult,stadium;
+    private LinearLayout referees;
 
     public MatchFragment() {
     }
@@ -32,61 +36,52 @@ public class MatchFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         MatchesViewModel viewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
         if (getArguments() != null) {
             int id = getArguments().getInt(ID);
-
             viewModel.getMatchById(id).observe(this, match -> {
-
+                if (match != null) {
+                    setMatchToView(match);
+                }
             });
         }
+    }
+
+    private void setMatchToView(Match match) {
+        status.setText(match.getStatus());
+        homeTeam.setText(match.getHomeTeam().getName());
+        homeTeamResult.setText(String.valueOf(match.getScore().getFullTime().getHomeTeam()));
+        awayTeam.setText(match.getAwayTeam().getName());
+        awayTeamResult.setText(String.valueOf(match.getScore().getFullTime().getAwayTeam()));
+        stadium.setText(match.getVenue());
+        addRefereeView(referees, match.getReferees());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match, container, false);
+        View view = inflater.inflate(R.layout.fragment_match, container, false);
+        status = view.findViewById(R.id.tv_status);
+        homeTeam = view.findViewById(R.id.tv_home_team);
+        homeTeamResult = view.findViewById(R.id.tv_home_team_result);
+        awayTeam = view.findViewById(R.id.tv_away_team);
+        awayTeamResult = view.findViewById(R.id.tv_away_team_result);
+        stadium=view.findViewById(R.id.tv_stadium);
+        referees = view.findViewById(R.id.ll_referees_container);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void addRefereeView(ViewGroup viewGroup, List<Person> referees) {
+
+        for (Person value : referees) {
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setPadding(15, 0, 15, 5);
+            textView.setText(value.getName());
+            viewGroup.addView(textView);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

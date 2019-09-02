@@ -1,9 +1,12 @@
 package com.ahmed.gamal.matchatak.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Person {
+public class Person implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -25,12 +28,32 @@ public class Person {
     private String nationality;
     @SerializedName("shirtNumber")
     @Expose
-    private Object shirtNumber;
+    private int shirtNumber;
     @SerializedName("role")
     @Expose
     private String role;
 
 
+    Person(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        dateOfBirth = in.readString();
+        countryOfBirth = in.readString();
+        nationality = in.readString();
+        role = in.readString();
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -80,11 +103,11 @@ public class Person {
         this.nationality = nationality;
     }
 
-    public Object getShirtNumber() {
+    public int getShirtNumber() {
         return shirtNumber;
     }
 
-    public void setShirtNumber(Object shirtNumber) {
+    public void setShirtNumber(int shirtNumber) {
         this.shirtNumber = shirtNumber;
     }
 
@@ -96,4 +119,18 @@ public class Person {
         this.role = role;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(dateOfBirth);
+        parcel.writeString(countryOfBirth);
+        parcel.writeString(nationality);
+        parcel.writeString(role);
+    }
 }

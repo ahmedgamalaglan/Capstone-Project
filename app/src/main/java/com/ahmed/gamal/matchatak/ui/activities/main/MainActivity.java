@@ -20,6 +20,7 @@ import com.ahmed.gamal.matchatak.adapters.CompetitionsAdapter;
 import com.ahmed.gamal.matchatak.model.Competition;
 import com.ahmed.gamal.matchatak.ui.activities.competition.CompetitionActivity;
 import com.ahmed.gamal.matchatak.viewmodels.CompetitionsViewModel;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -30,11 +31,13 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
     private RecyclerView recyclerView;
     private View progressbar;
     private CompetitionsViewModel viewModel;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         recyclerView = findViewById(R.id.rv_competitions);
         progressbar = findViewById(R.id.progress_bar);
         viewModel = ViewModelProviders.of(this).get(CompetitionsViewModel.class);
@@ -57,7 +60,11 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
     @Override
     public void addToFavorites(Competition competition) {
         viewModel.addCompetitionToDatabase(competition);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, competition.getName());
+        firebaseAnalytics.logEvent("competitions", bundle);
         Toast.makeText(this, "This Competition Was Marked As Favorite", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
