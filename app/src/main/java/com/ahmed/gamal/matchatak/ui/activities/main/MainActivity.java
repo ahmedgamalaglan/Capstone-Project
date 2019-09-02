@@ -1,11 +1,15 @@
 
 
-package com.ahmed.gamal.matchatak.ui;
+package com.ahmed.gamal.matchatak.ui.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +18,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.adapters.CompetitionsAdapter;
 import com.ahmed.gamal.matchatak.model.Competition;
-import com.ahmed.gamal.matchatak.ui.competition.CompetitionActivity;
+import com.ahmed.gamal.matchatak.ui.activities.competition.CompetitionActivity;
 import com.ahmed.gamal.matchatak.viewmodels.CompetitionsViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
 
     private RecyclerView recyclerView;
     private View progressbar;
+    private CompetitionsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.rv_competitions);
         progressbar = findViewById(R.id.progress_bar);
-        CompetitionsViewModel viewModel = ViewModelProviders.of(this).get(CompetitionsViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CompetitionsViewModel.class);
         viewModel.getCompetitions().observe(this, competitions -> {
             setRecyclerView(competitions);
             progressbar.setVisibility(View.INVISIBLE);
@@ -49,10 +55,38 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
     }
 
     @Override
+    public void addToFavorites(Competition competition) {
+        viewModel.addCompetitionToDatabase(competition);
+        Toast.makeText(this, "This Competition Was Marked As Favorite", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void OnCompetitionClick(Competition competition) {
         Intent intent = new Intent(MainActivity.this, CompetitionActivity.class);
         intent.putExtra("id", competition.getId());
         intent.putExtra("name", competition.getName());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.main) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+        }
+        if (item.getItemId() == R.id.add_to_fav) {
+            progressbar.setVisibility(View.VISIBLE);
+            viewModel.getCompetitionsFromDatabase().observe(MainActivity.this, competitions -> {
+                setRecyclerView(competitions);
+                progressbar.setVisibility(View.INVISIBLE);
+            });
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -53,6 +53,9 @@ public class Match {
     @SerializedName("goals")
     @Expose
     private List<Goal> goals;
+    @SerializedName("score")
+    @Expose
+    private Score score;
     @SerializedName("bookings")
     @Expose
     private List<Booking> bookings;
@@ -197,6 +200,14 @@ public class Match {
 
     public void setSubstitutions(List<Substitution> substitutions) {
         this.substitutions = substitutions;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     public List<Person> getReferees() {

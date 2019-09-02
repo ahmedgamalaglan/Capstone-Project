@@ -1,31 +1,42 @@
 package com.ahmed.gamal.matchatak.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "teams")
 public class Team {
 
+    @Ignore
     @SerializedName("teams")
     @Expose
     private List<Team> teams;
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private int id;
     @SerializedName("name")
     @Expose
     private String name;
+    @Ignore
     @SerializedName("coach")
     @Expose
     private Person coach;
+    @Ignore
     @SerializedName("captain")
     @Expose
     private Person captain;
+    @Ignore
     @SerializedName("lineup")
     @Expose
     private List<Person> lineup;
+    @Ignore
     @SerializedName("bench")
     @Expose
     private List<Person> bench;
@@ -56,6 +67,10 @@ public class Team {
     @SerializedName("venue")
     @Expose
     private String venue;
+    @SerializedName("crestUrl")
+    @Expose
+    private String crestUrl;
+    @Ignore
     @SerializedName("squad")
     @Expose
     private List<Person> squad = null;
@@ -190,6 +205,14 @@ public class Team {
 
     public List<Person> getSquad() {
         return squad;
+    }
+
+    public String getCrestUrl() {
+        return crestUrl;
+    }
+
+    public void setCrestUrl(String crestUrl) {
+        this.crestUrl = crestUrl;
     }
 
     public void setSquad(List<Person> squad) {

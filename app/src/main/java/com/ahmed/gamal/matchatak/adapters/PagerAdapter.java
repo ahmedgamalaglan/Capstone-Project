@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.ahmed.gamal.matchatak.ui.MatchesFragment;
-import com.ahmed.gamal.matchatak.ui.TeamsFragment;
+import com.ahmed.gamal.matchatak.ui.activities.competition.MatchesFragment;
+import com.ahmed.gamal.matchatak.ui.activities.competition.TeamsFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -24,7 +24,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return MatchesFragment.newInstance(id, season);
         } else if (position == 1)
-            return TeamsFragment.newInstance(id);
+            return TeamsFragment.newInstance(id,season);
         return null;
     }
 

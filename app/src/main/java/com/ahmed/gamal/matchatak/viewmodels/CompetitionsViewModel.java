@@ -28,5 +28,14 @@ public class CompetitionsViewModel extends AndroidViewModel {
         return competitions;
     }
 
+    public LiveData<List<Competition>> getCompetitionsFromDatabase() {
+        if (competitions == null) competitions = new MutableLiveData<>();
+        competitions = repository.getCompetitionsFromDB();
+        return competitions;
+    }
+
+    public void addCompetitionToDatabase(Competition competition) {
+        repository.addCompetitionToDataBase(competition);
+    }
 
 }

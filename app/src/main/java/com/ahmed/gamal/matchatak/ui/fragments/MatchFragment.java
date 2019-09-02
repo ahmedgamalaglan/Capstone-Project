@@ -1,4 +1,4 @@
-package com.ahmed.gamal.matchatak.ui;
+package com.ahmed.gamal.matchatak.ui.fragments;
 
 import android.content.Context;
 import android.net.Uri;

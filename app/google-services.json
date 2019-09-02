@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "900288787723",
+    "firebase_url": "https://matchatak-112f7.firebaseio.com",
+    "project_id": "matchatak-112f7",
+    "storage_bucket": "matchatak-112f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900288787723:android:569e2b8f42f97be1",
+        "android_client_info": {
+          "package_name": "com.ahmed.gamal.matchatak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900288787723-cabj6nnoirv4o43kdiqch4cj46du78ea.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmed.gamal.matchatak",
+            "certificate_hash": "bd74e8c7032d39dba34dede164343b82a514d0aa"
+          }
+        },
+        {
+          "client_id": "900288787723-m7m0pb5spefv7mtcve3fob1535b2td14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4R_MkshLtuXN9IKkw7UmqvgtGHRCYPk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900288787723-m7m0pb5spefv7mtcve3fob1535b2td14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
-package com.ahmed.gamal.matchatak.ui.competition;
+package com.ahmed.gamal.matchatak.ui.activities.competition;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +18,14 @@ import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.adapters.PagerAdapter;
 import com.ahmed.gamal.matchatak.adapters.SeasonsAdapter;
 import com.ahmed.gamal.matchatak.model.Competition;
-import com.ahmed.gamal.matchatak.ui.TeamsFragment;
+import com.ahmed.gamal.matchatak.model.Team;
 import com.ahmed.gamal.matchatak.utils.DateUtil;
 import com.ahmed.gamal.matchatak.viewmodels.CompetitionViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
-public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnFragmentInteractionListener {
+public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnTeamsFragmentInteractionListener {
 
     private RecyclerView recyclerView;
     private ImageView imageView;
@@ -47,7 +45,6 @@ public class CompetitionActivity extends AppCompatActivity implements SeasonsAda
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.rv_seasons);
         viewPager = findViewById(R.id.vp_viewpager);
         tabLayout = findViewById(R.id.tab_layout);
@@ -92,16 +89,15 @@ public class CompetitionActivity extends AppCompatActivity implements SeasonsAda
         tabLayout.setupWithViewPager(viewPager);
 
     }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Team team) {
+
     }
 }

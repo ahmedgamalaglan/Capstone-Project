@@ -3,6 +3,7 @@ package com.ahmed.gamal.matchatak.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -17,27 +18,33 @@ public class Competition {
     @Expose
     private List<Competition> competitions;
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private int id;
+
     @SerializedName("area")
     @Expose
     private Area area;
     @SerializedName("name")
     @Expose
     private String name;
+    @Ignore
     @SerializedName("code")
     @Expose
     private Object code;
+    @Ignore
     @SerializedName("emblemUrl")
     @Expose
     private Object emblemUrl;
     @SerializedName("plan")
     @Expose
     private String plan;
+    @Ignore
     @SerializedName("currentSeason")
     @Expose
     private Season currentSeason;
+    @Ignore
     @SerializedName("seasons")
     @Expose
     private List<Season> seasons;

@@ -51,13 +51,14 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView name, area;
-        ImageView image;
+        ImageView image, addToFav;
 
         MyHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.tv_name);
             image = itemView.findViewById(R.id.iv_image);
             area = itemView.findViewById(R.id.tv_area_name);
+            addToFav = itemView.findViewById(R.id.iv_add_to_fav);
             itemView.setOnClickListener(this);
         }
 
@@ -65,6 +66,9 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
             Picasso.get().load(Const.getImageUrl(competitions.get(position).getId())).into(image);
             name.setText(competitions.get(position).getName());
             area.setText(competitions.get(position).getArea().getName());
+            addToFav.setOnClickListener(view -> {
+                clickListener.addToFavorites(competitions.get(position));
+            });
         }
 
         @Override
@@ -74,6 +78,9 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
     }
 
     public interface OnCompetitionClickListener {
+        void addToFavorites(Competition competition);
+
         void OnCompetitionClick(Competition competition);
     }
+
 }

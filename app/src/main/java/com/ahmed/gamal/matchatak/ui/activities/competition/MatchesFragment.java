@@ -1,4 +1,4 @@
-package com.ahmed.gamal.matchatak.ui;
+package com.ahmed.gamal.matchatak.ui.activities.competition;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

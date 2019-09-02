@@ -1,4 +1,4 @@
-package com.ahmed.gamal.matchatak.ui;
+package com.ahmed.gamal.matchatak.ui.activities.competition;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,29 +8,27 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmed.gamal.matchatak.R;
+import com.ahmed.gamal.matchatak.adapters.TeamsAdapter;
 import com.ahmed.gamal.matchatak.model.Team;
 import com.ahmed.gamal.matchatak.viewmodels.TeamsViewModel;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TeamsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TeamsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TeamsFragment extends Fragment {
 
 
     private TeamsViewModel viewModel;
+    private TeamsAdapter adapter;
+    private RecyclerView recyclerView;
     private static String ID = "id";
     private static String SEASON = "season";
+    private View progressbar;
 
-    private OnFragmentInteractionListener mListener;
+    private OnTeamsFragmentInteractionListener mListener;
 
     public TeamsFragment() {
     }
@@ -51,7 +49,7 @@ public class TeamsFragment extends Fragment {
         if (getArguments() != null) {
             int competitionId = getArguments().getInt(ID);
             int season = getArguments().getInt(SEASON);
-            viewModel.getCompetitionTeamsList(competitionId,season).observe(this, teams -> {
+            viewModel.getCompetitionTeamsList(competitionId, season).observe(this, teams -> {
                 if (teams != null)
                     setTeamsToView(teams);
             });
@@ -59,13 +57,21 @@ public class TeamsFragment extends Fragment {
     }
 
     private void setTeamsToView(List<Team> teams) {
-
+        adapter = new TeamsAdapter();
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
+        adapter.setData(teams);
+        progressbar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_teams, container, false);
+        View view = inflater.inflate(R.layout.fragment_teams, container, false);
+        progressbar = view.findViewById(R.id.progress_bar);
+        recyclerView = view.findViewById(R.id.rv_teams);
+        return view;
     }
 
     public void onButtonPressed(Team team) {
@@ -77,8 +83,8 @@ public class TeamsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnTeamsFragmentInteractionListener) {
+            mListener = (OnTeamsFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -92,7 +98,7 @@ public class TeamsFragment extends Fragment {
     }
 
 
-    public interface OnFragmentInteractionListener {
+    public interface OnTeamsFragmentInteractionListener {
         void onFragmentInteraction(Team team);
     }
 }

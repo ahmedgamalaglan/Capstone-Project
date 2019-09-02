@@ -1,8 +1,10 @@
 package com.ahmed.gamal.matchatak.model;
 
+import androidx.room.Entity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
+@Entity
 public class Area {
 
 
@@ -24,6 +26,10 @@ public class Area {
     @SerializedName("parentArea")
     @Expose
     private String parentArea;
+
+    public Area(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

@@ -17,6 +17,7 @@ public class TeamsViewModel extends AndroidViewModel {
     private DataRepository repository;
     private LiveData<Team> team;
     private LiveData<List<Team>> teams;
+
     public TeamsViewModel(@NonNull Application application) {
         super(application);
         repository = new DataRepository(application);
@@ -29,11 +30,24 @@ public class TeamsViewModel extends AndroidViewModel {
         }
         return team;
     }
-    public LiveData<List<Team>> getCompetitionTeamsList(int competitionId,int season) {
+
+    public LiveData<List<Team>> getCompetitionTeamsList(int competitionId, int season) {
         if (teams == null) {
             teams = new MutableLiveData<>();
-            teams = repository.getCompetitionTeamsList(competitionId,season);
+            teams = repository.getCompetitionTeamsList(competitionId, season);
         }
         return teams;
+    }
+
+    public LiveData<List<Team>> getFavoriteTeamsList() {
+        if (teams == null) {
+            teams = new MutableLiveData<>();
+            teams = repository.getTeamsFromDB();
+        }
+        return teams;
+    }
+
+    public void addFavoriteTeam(Team team) {
+        repository.addTeamToDataBase(team);
     }
 }

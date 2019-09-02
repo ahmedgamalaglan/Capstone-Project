@@ -14,8 +14,23 @@
     <string name="matches">Matches</string>
     <string name="teams">Teams</string>
     <string name="club_image">Club Image</string>
+    <string name="shirt_colors">Shirt Colors</string>
+    <string name="sign_out">Sign Out</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in </string>
+    <string name="register">Register </string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="website">WebSite</string>
+    <string name="tel">Tel</string>
+    <string name="reload_from_network">reload from Network</string>
     <string-array name="urls">
         <item></item>
     </string-array>
