@@ -40,4 +40,7 @@
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="club_colors">Club Colors</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="logo">Logo</string>
 </resources>

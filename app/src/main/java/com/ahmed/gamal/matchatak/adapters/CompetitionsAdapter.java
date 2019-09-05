@@ -64,6 +64,7 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
 
         void bind(int position) {
             Picasso.get().load(Const.getImageUrl(competitions.get(position).getId())).into(image);
+            image.setContentDescription(competitions.get(position).getName());
             name.setText(competitions.get(position).getName());
             area.setText(competitions.get(position).getArea().getName());
             addToFav.setOnClickListener(view -> {

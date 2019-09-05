@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmed.gamal.matchatak.R;
 import com.ahmed.gamal.matchatak.model.Team;
-import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,6 +19,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
 
     private List<Team> teams;
     private OnTeamClickListener onTeamClickListener;
+
     public void setData(List<Team> teams) {
         this.teams = teams;
         notifyDataSetChanged();
@@ -51,7 +50,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
         ImageView addToFav;
         TextView name, year, mobile, website;
 
-         TeamsHolder(@NonNull View itemView) {
+        TeamsHolder(@NonNull View itemView) {
             super(itemView);
             addToFav = itemView.findViewById(R.id.iv_add_to_fav);
             name = itemView.findViewById(R.id.tv_name);
@@ -61,13 +60,14 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
             itemView.setOnClickListener(this);
         }
 
-         void bind(int position) {
+        void bind(int position) {
             Team team = teams.get(position);
             name.setText(team.getName());
             year.setText(String.valueOf(team.getFounded()));
             mobile.setText(team.getPhone());
             website.setText(team.getWebsite());
-            addToFav.setOnClickListener(view -> {});
+            addToFav.setOnClickListener(view -> {
+            });
         }
 
         @Override
@@ -76,7 +76,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamsHolder>
         }
     }
 
-    public interface OnTeamClickListener{
+    public interface OnTeamClickListener {
         void onTeamClick(int teamId);
     }
 }

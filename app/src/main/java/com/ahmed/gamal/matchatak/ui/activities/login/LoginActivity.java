@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAnalytics=FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.login);
@@ -98,8 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
                             updateUI(user);
                         } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            if (task.getException() != null)
+                                Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(),
+                                        Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                         loadingProgressBar.setVisibility(View.INVISIBLE);

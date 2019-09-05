@@ -41,13 +41,10 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
         recyclerView = findViewById(R.id.rv_competitions);
         progressbar = findViewById(R.id.progress_bar);
         viewModel = ViewModelProviders.of(this).get(CompetitionsViewModel.class);
-        viewModel.getCompetitions().observe(this, competitions -> {
-            setRecyclerView(competitions);
-            progressbar.setVisibility(View.INVISIBLE);
-
-        });
+        getDataFromNetwork();
 
     }
+
 
     private void setRecyclerView(List<Competition> competitionsList) {
         CompetitionsAdapter adapter = new CompetitionsAdapter(this);
@@ -88,12 +85,34 @@ public class MainActivity extends AppCompatActivity implements CompetitionsAdapt
             finish();
         }
         if (item.getItemId() == R.id.add_to_fav) {
-            progressbar.setVisibility(View.VISIBLE);
-            viewModel.getCompetitionsFromDatabase().observe(MainActivity.this, competitions -> {
-                setRecyclerView(competitions);
-                progressbar.setVisibility(View.INVISIBLE);
-            });
+            getDataFromDatabase();
+        }
+        else if (item.getItemId() == R.id.reload_from_network) {
+            getDataFromNetwork();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getDataFromDatabase() {
+        progressbar.setVisibility(View.VISIBLE);
+        viewModel.getCompetitionsFromDatabase().observe(MainActivity.this, competitions -> {
+            setRecyclerView(competitions);
+            progressbar.setVisibility(View.INVISIBLE);
+        });
+    }
+
+    private void getDataFromNetwork() {
+        progressbar.setVisibility(View.VISIBLE);
+        viewModel.getCompetitions().observe(this, competitions -> {
+            setRecyclerView(competitions);
+            progressbar.setVisibility(View.INVISIBLE);
+
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        finish();
     }
 }
