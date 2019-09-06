@@ -32,7 +32,6 @@ import com.squareup.picasso.Picasso;
 public class CompetitionActivity extends AppCompatActivity implements SeasonsAdapter.OnSeasonClickListener, TeamsFragment.OnTeamsInteractionListener, MatchesFragment.OnMatchFragmentInteractionListener {
 
     private RecyclerView recyclerView;
-    private ImageView imageView;
     private TabLayout tabLayout;
     private PagerAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -44,7 +43,7 @@ public class CompetitionActivity extends AppCompatActivity implements SeasonsAda
         setContentView(R.layout.activity_competition);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        imageView = findViewById(R.id.iv_bar_background);
+        ImageView imageView = findViewById(R.id.iv_bar_background);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)

@@ -30,8 +30,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
-    private Button loginButton;
-    private Button registerButton;
     private ProgressBar loadingProgressBar;
     private FirebaseAnalytics firebaseAnalytics;
 
@@ -43,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
-        loginButton = findViewById(R.id.login);
-        registerButton = findViewById(R.id.register);
+        Button loginButton = findViewById(R.id.login);
+        Button registerButton = findViewById(R.id.register);
         loadingProgressBar = findViewById(R.id.loading);
 
         loadingProgressBar.setVisibility(View.GONE);
